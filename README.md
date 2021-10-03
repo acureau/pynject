@@ -1,6 +1,5 @@
-# Pynject
-A Windows application for injecting code into live python processes. Pynject scans the system for running python processes, and uses DLL injection to run code using the Python C API. <br><br>
-![Screenshot](docs/showcase.png)
+![Screenshot](docs/images/showcase.png)
+A Windows application for injecting code into live python processes. Pynject scans the system for running python processes, and uses DLL injection to run code using the Python C API.
 <br><br>
 
 ## Installation & Usage
