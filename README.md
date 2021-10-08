@@ -1,6 +1,7 @@
 ![Screenshot](docs/images/showcase.png)
-A Windows application for injecting code into live python processes. What makes Pynject different from other injectors is that it does not rely on GDB to do the heavy lifting. Pynject scans the system for running python processes, and uses DLL injection to run code using the Python C API.
 <br><br>
+A Windows application for injecting code into live python processes. What makes Pynject different from other injectors is that it does not rely on GDB to do the heavy lifting. Pynject scans the system for running python processes, and uses DLL injection to run code using the Python C API.
+<br>
 
 ## Installation & Usage
 Pre-compiled binaries for x64 and x86 systems can be downloaded from the [releases](https://github.com/am-nobody/pynject/releases) page. It is strongly recommended that you [add pynject to your PATH](https://www.architectryan.com/2018/03/17/add-to-the-path-on-windows-10/) for ease of access.
