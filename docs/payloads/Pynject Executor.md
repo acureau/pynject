@@ -26,6 +26,7 @@ The pynject executor has some built in functions which can be useful in your scr
 * copy(str) - Use this rather than copying from outputconsole.
 * fglobals() - Returns globals() with the executor's own globals filtered.
 * force_load(str) - Forces a module to load from out of path scope.
+* find_objects(str) - Find tracked objects of specified type. Returns dict with format {symbol: value}.
 <br><br>
 ### force_load()
 This function works quite differently. To use it, you need the target application's python version installed on your system as well as the module you're trying to load. The function will spawn a subprocess using that version of python and find the location of the module. __Do not use this function unless the target's path is restricted. (e.g. pyinstaller)__

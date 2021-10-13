@@ -24,7 +24,8 @@ C:\>pynject 53736 script.py
 
 ## Pynject Standard Payloads
 Pynject comes bundled with pre-written scripts which you may find useful. Documentation for these payloads can be found [here](https://github.com/am-nobody/pynject/tree/master/docs/payloads). The current list official payloads is as follows.
-* Pynject Executor
+* Pynject Executor (v1.1)
+* Pynject Inspector (v1.0)
 <br><br>
 
 ## Contributing
@@ -36,11 +37,10 @@ Pynject is still in its infancy, plenty of ideas are in the works if motivation 
 
 <ins>Currently in Development</ins>
 ```
-Pynject Inspector
-
- - Inspect and change global variables.
- - View class methods & attributes.
- - View function instructions and arguments.
+Pynject Debugger
+  - Remote shell.
+  - Remote pdb.
+  - Stack dumping.
 ```
 <br>
 

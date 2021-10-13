@@ -16,6 +16,7 @@ for glob in dict(globals()):
 del(glob)
 
 import os
+import gc
 import sys
 import tkinter
 import threading
@@ -112,7 +113,7 @@ if (not "Executor" in globals().keys()):
 
         def execute(self):
             codeString = self.codeBox.get("1.0","end").rstrip("\n")
-            executorApi = ["copy", "cls", "cout", "fglobals", "force_load"]
+            executorApi = ["copy", "cls", "cout", "fglobals", "force_load", "find_objects"]
             for func in executorApi:
                 codeString = codeString.replace((func + "("), ("self." + func + "("))
             exec(codeString)
@@ -190,6 +191,17 @@ if (not "Executor" in globals().keys()):
                     if (not g in self.preserveImports):
                         del(globs[g])
             return(globs)
+
+        def find_objects(self, typeString):
+            found = {}
+            for obj in list(gc.get_objects()):
+                if (type(obj).__name__ == typeString):
+                    symbol = ""
+                    for glob in dict(globals()):
+                        if (id(globals()[glob]) == id(obj)):
+                            symbol = glob
+                    found[symbol] = obj
+            return(found)
 
         def force_load(self, name):
             if (name in sys.modules):
