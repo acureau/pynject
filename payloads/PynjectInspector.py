@@ -415,8 +415,6 @@ class Inspector():
         if (selection != None):
             self.tRightClickMenu.post(event.x_root, event.y_root)
 
-        # Populate the type list with every object type in the garbage collector.
-
     # Populate the type list with every object type tracked by the GC.
     def populateTypeList(self):
         self.typeList.delete(0, tkinter.END)

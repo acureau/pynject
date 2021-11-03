@@ -196,7 +196,7 @@ if (not "Executor" in globals().keys()):
             found = {}
             for obj in list(gc.get_objects()):
                 if (type(obj).__name__ == typeString):
-                    symbol = ""
+                    symbol = id(obj)
                     for glob in dict(globals()):
                         if (id(globals()[glob]) == id(obj)):
                             symbol = glob
