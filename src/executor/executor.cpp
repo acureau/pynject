@@ -11,10 +11,10 @@ void recieveLoop();
 
 void runPythonCode(const char* code, const char* versionModule) {
     // Assign function pointers to C API function addresses.
-    int(__cdecl *ensureGIL)() = reinterpret_cast<int(__cdecl*)()>(GetProcAddress(GetModuleHandleA(versionModule), "PyGILState_Ensure"));
-    void(__cdecl *releaseGIL)(int) = reinterpret_cast<void(__cdecl*)(int)>(GetProcAddress(GetModuleHandleA(versionModule), "PyGILState_Release"));
-    void(__cdecl *runString)(char*) = reinterpret_cast<void(__cdecl*)(char*)>(GetProcAddress(GetModuleHandleA(versionModule), "PyRun_SimpleString"));
-    
+    int(__cdecl * ensureGIL)() = reinterpret_cast<int(__cdecl*)()>(GetProcAddress(GetModuleHandleA(versionModule), "PyGILState_Ensure"));
+    void(__cdecl * releaseGIL)(int) = reinterpret_cast<void(__cdecl*)(int)>(GetProcAddress(GetModuleHandleA(versionModule), "PyGILState_Release"));
+    void(__cdecl * runString)(char*) = reinterpret_cast<void(__cdecl*)(char*)>(GetProcAddress(GetModuleHandleA(versionModule), "PyRun_SimpleString"));
+
     // Call functions to execute code string.
     int state = ensureGIL();
     runString((char*)code);
@@ -51,7 +51,7 @@ void recieveLoop() {
         std::string message(buffer);
         std::string path = message.substr(0, message.find("|"));
         std::string ver = message.substr((message.find("|") + 1), (message.size() - 1));
-        
+
         // Read path into string. Close pipe, and execute code.
         std::string codeString = readPath(path);
         CloseHandle(pipe);
@@ -74,4 +74,3 @@ BOOL APIENTRY DllMain(HMODULE hModule, DWORD reason, LPVOID lpReserved)
     }
     return TRUE;
 }
-
