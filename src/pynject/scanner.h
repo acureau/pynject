@@ -5,18 +5,14 @@
 class scanner
 {
 public:
-	std::string versionModule;
+	std::string moduleName;
 	int processId = 0;
 	bool found = false;
 
 	void scan();
-
-	scanner() {
-	}
+	scanner() {}
 	scanner(int pid) {
 		processId = pid;
 	}
-
-private:
 };
 

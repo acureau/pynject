@@ -4,34 +4,30 @@
 #include <string>
 #include "injector.h"
 
-std::string getExeRoot()
-{
+std::string injector::getExeRoot() {
 	char buffer[MAX_PATH];
 	GetModuleFileNameA(NULL, buffer, MAX_PATH);
 	std::string::size_type pos = std::string(buffer).find_last_of("\\/");
 	return std::string(buffer).substr(0, pos);
 }
 
-bool checkDll(int pid) {
-	// Open handle to process.
+bool injector::isDllInjected(int pid) {
 	bool found = false;
-	HANDLE hProcess = OpenProcess(PROCESS_ALL_ACCESS, false, pid);
-	if (hProcess == NULL) { return(found); }
+	HANDLE processHandle = OpenProcess(PROCESS_ALL_ACCESS, false, pid);
+	if (processHandle == NULL) { return(found); }
 
-	// Grab process modules.
 	HMODULE moduleArray[1024];
 	DWORD moduleArraySize;
-	if (EnumProcessModules(hProcess, moduleArray, sizeof(moduleArray), &moduleArraySize)) {
+	if (EnumProcessModules(processHandle, moduleArray, sizeof(moduleArray), &moduleArraySize)) {
 		DWORD moduleCount = (moduleArraySize / sizeof(HMODULE));
 		for (DWORD i = 0; i < moduleCount; i++) {
 			TCHAR moduleBase[MAX_PATH];
-			if (GetModuleBaseName(hProcess, moduleArray[i], moduleBase, sizeof(moduleBase))) {
-				// Convert module name to string.
-				std::wstring wideModule(moduleBase);
-				std::string stringModule(wideModule.begin(), wideModule.end());
+			if (GetModuleBaseName(processHandle, moduleArray[i], moduleBase, sizeof(moduleBase))) {
 
-				// If module name is equal to 'executor.dll' then set found to true.
-				if (strcmp(stringModule.c_str(), "executor.dll") == 0) {
+				std::wstring wstringModuleName(moduleBase);
+				std::string stringModuleName(wstringModuleName.begin(), wstringModuleName.end());
+
+				if (strcmp(stringModuleName.c_str(), "executor.dll") == 0) {
 					found = true;
 				}
 			}
@@ -40,22 +36,14 @@ bool checkDll(int pid) {
 	}
 	else { return(found); }
 
-	// Close handle to process.
-	CloseHandle(hProcess);
+	CloseHandle(processHandle);
 	return(found);
 }
 
-int injectDll(int pid) {
-	// Get full path to executor dll.
+int injector::injectDll(int pid) {
 	std::string path = getExeRoot();
 	path = path + "\\executor.dll";
 	
-	// Inject DLL. (Native)
-	/*
-		A handle to the process is opened, and memory is allocated to store the DLL's path.
-		The path is then written to the process, and loaded via a remote thread which executes LoadLibraryA(path).
-		We get the address of this function from our own process, because kernel32.dll is loaded at the same address across processes.
-	*/
 	HANDLE pyProcess = OpenProcess(PROCESS_ALL_ACCESS, false, (DWORD)pid);
 	LPVOID dllMemAddr = VirtualAllocEx(pyProcess, NULL, (strlen(path.c_str()) + 1), MEM_RESERVE | MEM_COMMIT, PAGE_EXECUTE_READWRITE);
 	if (dllMemAddr != NULL) {
@@ -77,16 +65,15 @@ int injectDll(int pid) {
 	return(0);
 }
 
-int pipeMessage(const char* codePath, const char* versionModule) {
-	// Wait for pipe to exist.
+int injector::writeNamedPipe(const char* scriptPath, const char* moduleName) {
 	int wait = 0;
 	while (wait == 0) {
 		wait = WaitNamedPipeA("\\\\.\\pipe\\executor", 5000);
 	}
 	if (wait != 0) {
 		HANDLE pipeHandle = CreateFileA("\\\\.\\pipe\\executor", GENERIC_WRITE, 0, NULL, OPEN_EXISTING, 0, NULL);
-		std::string message(codePath);
-		message = message + "|" + versionModule;
+		std::string message(scriptPath);
+		message = message + "|" + moduleName;
 		const char *cMessage = message.c_str();
 		DWORD cbWritten;
 		
@@ -99,20 +86,18 @@ int pipeMessage(const char* codePath, const char* versionModule) {
 	return(0);
 }
 
-void injector::injectCode(int pid, const char* codePath, const char* versionModule) {
-	// Check for DLL, if not found inject DLL.
-	if (!checkDll(pid)) {
-		int injCode = injectDll(pid);
-		if (injCode != 0) {
-			std::cout << "DLL injection failed. Error code " << injCode << "." << std::endl;
+void injector::injectCode(int pid, const char* codePath, const char* moduleName) {
+	if (!isDllInjected(pid)) {
+		int injectionExitCode = injectDll(pid);
+		if (injectionExitCode != 0) {
+			std::cout << "DLL injection failed. Error code " << injectionExitCode << "." << std::endl;
 			return;
 		}
 	}
 
-	// Pass strings to DLL.
-	int pipeCode = pipeMessage(codePath, versionModule);
-	if (pipeCode != 0) {
-		std::cout << "Communication with DLL failed. Error code " << pipeCode << "." << std::endl;
+	int pipeExitCode = writeNamedPipe(codePath, moduleName);
+	if (pipeExitCode != 0) {
+		std::cout << "Communication with DLL failed. Error code " << pipeExitCode << "." << std::endl;
 		return;
 	}
 }
