@@ -45,7 +45,7 @@ int main(int argc, char *argv[]) {
 						std::cout << "Invalid script path." << std::endl;
 						return(0);
 					}
-					inj.injectCode(scnr.processId, fullCodePath.c_str(), (scnr.versionModule).c_str());
+					inj.injectCode(scnr.processId, fullCodePath.c_str(), (scnr.moduleName).c_str());
 				}
 			}
 			else { printUsage(); }
