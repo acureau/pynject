@@ -20,7 +20,6 @@ In the project root, run the following command and find a release archive in the
 ```
 py build.py release
 ```
-
 ### <ins>Usage</ins>
 Pynject has two functions. To scan your system for running python processes, use the scan command.
 ```
