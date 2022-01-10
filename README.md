@@ -8,6 +8,19 @@ Pre-compiled binaries for x64 and x86 systems can be downloaded from the [releas
 ### <ins>Building from Source</ins>
 Download and install [Visual Studio](https://visualstudio.microsoft.com/) if you have not already.
 Open the project file in the 'src' directory. Build both solutions for your target architecture, and ensure that 'executor.dll' is in the same directory as pynject before execution.
+
+You can also use the build script to automatically build binaries for both x64 and x86 systems. First add MSBuild to your path. In Visual Studio Community 2022, you can find it here.
+
+```
+C:\Program Files\Microsoft Visual Studio\2022\Community\Msbuild\Current\Bin\MSBuild.exe
+```
+
+In the project root, run the following command and find a release archive in the '.builds' directory.
+
+```
+py build.py release
+```
+
 ### <ins>Usage</ins>
 Pynject has two functions. To scan your system for running python processes, use the scan command.
 ```

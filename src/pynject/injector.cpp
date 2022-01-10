@@ -31,7 +31,7 @@ bool checkDll(int pid) {
 				std::string stringModule(wideModule.begin(), wideModule.end());
 
 				// If module name is equal to 'executor.dll' then set found to true.
-				if (strcmp(stringModule.c_str(), "executor32.dll") == 0) {
+				if (strcmp(stringModule.c_str(), "executor.dll") == 0) {
 					found = true;
 				}
 			}
@@ -48,7 +48,7 @@ bool checkDll(int pid) {
 int injectDll(int pid) {
 	// Get full path to executor dll.
 	std::string path = getExeRoot();
-	path = path + "\\executor32.dll";
+	path = path + "\\executor.dll";
 	
 	// Inject DLL. (Native)
 	/*
