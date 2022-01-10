@@ -1,0 +1,28 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <ClCompile Include="..\pynject\main.cpp" />
+    <ClCompile Include="..\pynject\injector.cpp">
+      <Filter>injector</Filter>
+    </ClCompile>
+    <ClCompile Include="..\pynject\scanner.cpp">
+      <Filter>scanner</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="..\pynject\injector.h">
+      <Filter>injector</Filter>
+    </ClInclude>
+    <ClInclude Include="..\pynject\scanner.h">
+      <Filter>scanner</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <Filter Include="injector">
+      <UniqueIdentifier>{4314aa08-066e-4b94-8bfe-a25285c2b09e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="scanner">
+      <UniqueIdentifier>{c8580496-674f-4b14-afd2-1b485f072a28}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+</Project>
