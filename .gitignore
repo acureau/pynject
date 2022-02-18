@@ -1,3 +1,9 @@
 ﻿/.builds
 /src/.vs
 **/*.user
+/src/Debug
+/src/Release
+/src/x64
+/src/Win32
+/src/pynject/x64
+/src/pynject/Win32

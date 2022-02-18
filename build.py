@@ -3,6 +3,7 @@ import sys
 import shutil
 
 DIR = os.getcwd()
+MODE = None
 
 def clean():
     src = (DIR + '\\src\\')
@@ -20,15 +21,15 @@ def archive():
 def package(architecture):
     builds = (DIR + '\\.builds\\')
     out = (builds + architecture)
-    
+
     if os.path.isdir(out):
         shutil.rmtree(out)
     os.mkdir(out)
-    
+
     for file in os.listdir(builds):
-        if file.endswith('.pdb'):
+        if file.endswith('.pdb') and (MODE != 'debug'):
             os.remove(builds + file)
-        elif file.endswith('.dll') or file.endswith('.exe'):
+        elif file.endswith('.dll') or file.endswith('.exe') or file.endswith('.pdb'):
             os.rename(builds + file, out + '\\' + file)
 
 def build(architecture, type):
@@ -37,6 +38,7 @@ def build(architecture, type):
     package(architecture)
 
 if 'release' in sys.argv:
+    MODE = 'release'
     print('Building x64 Release...')
     build('x64', 'Release')
     print('Building x86 Release...')
@@ -47,6 +49,7 @@ if 'release' in sys.argv:
     archive()
     print('Done.')
 else:
+    MODE = 'debug'
     print('Building x64 Debug...')
     build('x64', 'Debug')
     print('Building x86 Debug...')
