@@ -11,6 +11,19 @@ struct pyProcess {
 	int pid;
 };
 
+void eraseSubStr(std::string& mainStr, const std::string& toErase) {
+	size_t pos = mainStr.find(toErase);
+	if (pos != std::string::npos)
+	{
+		mainStr.erase(pos, toErase.length());
+	}
+}
+
+bool isNumeric(const std::string& str)
+{
+	return str.find_first_not_of("0123456789") == std::string::npos;
+}
+
 pyProcess isPythonProcess(int pid) {
 	pyProcess proc;
 
@@ -32,14 +45,20 @@ pyProcess isPythonProcess(int pid) {
 
 				if ((stringModule.find("python") != std::string::npos) && (stringModule.find("dll") != std::string::npos)) {
 
-					TCHAR baseModule[MAX_PATH];
-					GetModuleBaseName(hProcess, 0, baseModule, sizeof(baseModule));
-					std::wstring wideBase(baseModule);
-					std::string stringBase(wideBase.begin(), wideBase.end());
+					std::string versionNumber = stringModule;
+					eraseSubStr(versionNumber, "python");
+					eraseSubStr(versionNumber, ".dll");
 
-					proc.pid = pid;
-					proc.moduleName = stringModule;
-					proc.baseModule = stringBase;
+					if (isNumeric(versionNumber)) {
+						TCHAR baseModule[MAX_PATH];
+						GetModuleBaseName(hProcess, 0, baseModule, sizeof(baseModule));
+						std::wstring wideBase(baseModule);
+						std::string stringBase(wideBase.begin(), wideBase.end());
+
+						proc.pid = pid;
+						proc.moduleName = stringModule;
+						proc.baseModule = stringBase;
+					}
 				}
 			}
 			else { 
