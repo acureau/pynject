@@ -45,15 +45,7 @@ All contributions are welcome so long as whatever you've done is functional. Pay
 <br><br>
 
 ## The Future
-Pynject is still in its infancy, plenty of ideas are in the works if motivation sticks around. I want to support different platforms in the future as well.
-
-<ins>Currently in Development</ins>
-```
-Pynject Debugger
-  - Remote shell.
-  - Remote pdb.
-  - Stack dumping.
-```
+Pynject's scope has changed! If you are interested, please read this [page](https://github.com/acureau/pynject/wiki/Pynject's-Future) detailing the future plans.
 <br>
 
 ## Credits
