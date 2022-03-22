@@ -34,15 +34,14 @@ C:\>pynject 53736 script.py
 ```
 <br>
 
-## Pynject Standard Payloads
+## Pynject Standard Payloads (DEPRECATED)
 Pynject comes bundled with pre-written scripts which you may find useful. Documentation for these payloads can be found [here](https://github.com/am-nobody/pynject/tree/master/docs/payloads). The current list official payloads is as follows.
 * Pynject Executor (v1.1)
 * Pynject Inspector (v1.0)
 <br><br>
 
 ## Contributing
-All contributions are welcome so long as whatever you've done is functional. Payload contributions are especially desired!
-<br><br>
+If you'd like to contribute, please check out the page below first. If you haven't changed your mind, feel free to pick any of the goals listed and hack away. I'd really appreciate it!
 
 ## The Future
 Pynject's scope has changed! If you are interested, please read this [page](https://github.com/acureau/pynject/wiki/Pynject's-Future) detailing the future plans.
